@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -8,7 +9,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static("public"));
-mongoose.connect("mongodb+srv://admin-alam:tes123@cluster0.x1tr5i2.mongodb.net/todolistDB", {useNewUrlParser: true});
+mongoose.connect("mongodb+srv://"+process.env.MONGO_DB_USERNAME+":"+process.env.MONGO_DB_PASSWORD+"@cluster0.x1tr5i2.mongodb.net/todolistDB", {useNewUrlParser: true});
 
 const itemsSchema = new mongoose.Schema ({
     name: String
@@ -110,7 +111,7 @@ app.post("/delete", function(req, res) {
     }
 });
 
-const port = process.env.PORT;
+let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
